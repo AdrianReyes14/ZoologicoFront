@@ -1,7 +1,15 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -26,6 +34,22 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/asignaciones">Asignaciones</NavLink>
             </li>
+          </ul>
+          <ul className="navbar-nav ms-auto">
+            {user ? (
+              <li className="nav-item">
+                <span className="nav-link">Bienvenido, {user.role}</span>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/login">Iniciar Sesión</NavLink>
+              </li>
+            )}
+            {user && (
+              <li className="nav-item">
+                <button className="btn btn-link nav-link" onClick={handleLogout}>Cerrar Sesión</button>
+              </li>
+            )}
           </ul>
         </div>
       </div>

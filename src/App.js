@@ -7,6 +7,8 @@ import Recintos from "./pages/Recintos";
 import Animales from "./pages/Animales";
 import Cuidadores from "./pages/Cuidadores";
 import Asignaciones from "./pages/Asignaciones";
+import Login from "./pages/Login";
+/*import ProtectedRoute from "./components/ProtectedRoute";*/
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -21,6 +23,10 @@ function App() {
       <Route path="/animales" element={<Animales/>} />
       <Route path="/cuidadores" element={<Cuidadores/>} />
       <Route path="/asignaciones" element={<Asignaciones/>} />
+      <Route path="/login" element={<Login/>} />
+
+      {/* Rutas protegidas para administradores 
+      <Route path="/admin" element={<ProtectedRoute role="admin" element={<AdminDashboard/>} />} />*/}
         </Routes>
     </div>
   </Router>

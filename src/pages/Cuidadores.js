@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import  { getCuidadores }  from "../services/cuidadorService";
+console.log("getCuidadores", getCuidadores);
 
 const Cuidadores = () => {
   const [cuidadores, setCuidadores] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/cuidadores")
-      .then(response => {
-        setCuidadores(response.data);
-      })
-      .catch(error => {
-        console.error("Error al obtener cuidadores:", error);
-      });
+    const fetchCuidadores = async() =>{
+      try{ 
+         const data = await getCuidadores();
+         console.log("Datos obtenidos", data);
+        setCuidadores(data);
+    
+    } catch (error){
+      console.error("Error obteniendo los cuidadores", error);
+    }
+  }
+    fetchCuidadores();
   }, []);
 
   return (
@@ -26,19 +31,20 @@ const Cuidadores = () => {
           </tr>
         </thead>
         <tbody>
-          {cuidadores.length > 0 ? (
-            cuidadores.map((cuidador) => (
-              <tr key={cuidador.id}>
-                <td>{cuidador.id}</td>
-                <td>{cuidador.nombre}</td>
-                <td>{cuidador.email}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="3" className="text-center">No hay cuidadores disponibles</td>
-            </tr>
-          )}
+        {cuidadores?.length > 0 ? (
+    cuidadores.map((cuidador) => (
+      <tr key={cuidador?.id || Math.random()}>
+        <td>{cuidador?.id || "N/A"}</td>
+        <td>{cuidador?.nombre || "Desconocido"}</td>
+        <td>{cuidador?.email || "No disponible"}</td>
+      </tr>
+    ))
+) : (
+    <tr>
+      <td colSpan="3" className="text-center">No hay cuidadores disponibles</td>
+    </tr>
+)}
+
         </tbody>
       </table>
     </div>
